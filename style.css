@@ -1,0 +1,22 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+p {
+  color: white;
+  text-align: center;
+  font-family: "Benton Sans";
+}
+
+.intro {
+  height: 20px;
+  background-color: rgba(255, 90, 79, 0.8);
+}

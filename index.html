@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bit by Bit | Virtual Reality Model Template</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alvinwan/aframe-low-poly@0.0.2/dist/aframe-low-poly.min.js"></script>
+    <script src="https://rawgit.com/zcanter/aframe-gradient-sky/master/dist/gradientsky.min.js"></script>
+    <link href="style.css" rel="stylesheet"></link>
+</head>
+<body>
+  <div class="intro">
+    <p>
+      Try clicking on objects to see how they react.
+    </p>
+  </div>
+<a-scene spawn-rewards physics="gravity: 0" fog="type: linear; color: rgba(255, 170, 126, 0.2); near: 15; far: 50">
+    <!-- Sky is a pale blue (TODO: add vanishing point, fade)FF533F <a-sky color="#FF5A4F" opacity="0.6"></a-sky>-->
+    <a-gradient-sky material="shader: gradient; topColor: 255 90 79; bottomColor: 255 170 126;"></a-gradient-sky>
+
+    <!-- Camera. Slightly off-center -->
+    <a-entity camera look-controls wasd-controls position="6 1.5 -5" rotation="5 130 0"> <!-- -45 45 0-->
+      <a-entity cursor="fuse: true; fuseTimeout: 250"
+                position="0 0 -1"
+                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                material="color: black; shader: flat"
+                scale="0.5 0.5 0.5"
+                raycaster="far: 20; interval: 1000; objects: .clickable">
+          <a-animation begin="fusing" easing="ease-in" attribute="scale"
+             fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="250"></a-animation>
+      </a-entity>
+    </a-entity>
+
+    <a-light type="ambient" intensity="0.8"></a-light>
+    <a-entity light="
+                    type: directional;
+                    castShadow: true;
+                    intensity: 0.3;
+                    color: white;" position="5 3 2">
+    </a-entity>
+    <!-- Ground. (TODO: Should be replaced with a true "ground" object.) -->
+    <!-- ground=#FFFCDC <a-box shadow id="ground" shadow="receive:true" color="#FFE4BD" width="10" height="0.1" depth="10"></a-box>-->
+    <a-cylinder shadow color="#68B2AB" radius="5" height="0.5" segments-radial="16">
+      <lp-sphere class="clickable" color="#A6E5FF" amplitude="0.05"amplitude-variance="0.01" position="-1 0.5 -1">
+          <lp-cone color="#92F65C" radius-top="0.3" radius-bottom="1.5" height="2.5" position="-1 3.5 0" amplitude-variance="0.1" amplitude="0.1" segments-height="2.5"></lp-cone>
+          <lp-cone color="#92F65C" radius-top="0.3" radius-bottom="1.5" height="2.5" position="-1 3 0" amplitude-variance="0.1" amplitude="0.1" segments-height="3">
+              <a-animation begin="click" attribute="rotation" from="0 0 0" to="0 360 0" repeat="2" easing="linear" dur="9000"></a-animation>
+          </lp-cone>
+          <lp-cone color="#92F65C" radius-top="0.2" radius-bottom="1.5" height="2.5" position="-1 4 0" amplitude-variance="0.2" amplitude="0.1" segments-height="2">
+                <a-animation begin="click" attribute="rotation" from="0 360 0" to="0 0 0" repeat="3" easing="linear" dur="9000"></a-animation>
+          </lp-cone>
+
+          <lp-cone color="#92F65C" radius-top="0.1" radius-bottom="0.6" height="1" position="-1 1 1.2" amplitude-variance="0.1" amplitude="0.05" segments-height="0.03"></lp-cone>
+          <a-cylinder color="#92615C" radius="0.25" segments-radial="8" height="3" position="-1.2 1 0" ></a-cylinder>
+          <a-cylinder color="#92615C" radius="0.1" segments-radial="8" height="1.3" position="-1 0 1.2" ></a-cylinder>
+          <lp-sphere class="clickable" color="#C187FF" amplitude="0.05" amplitude-variance="0.01" position=" -1 0.5 -2" radius="1.5">
+            <a-animation begin="click" attribute="color" from="#C187FF" to="#A56084" repeat="2" dur="800"></a-animation>
+          </lp-sphere>
+      </lp-sphere>
+
+      <lp-sphere class="clickable" color="#FF7F5A" amplitude="0.05" amplitude-variance="0.01" position="3 0.5 1.5" radius="1.3" rotation="0 45 0">
+          <lp-sphere color="#F692C3" amplitude="0.02" amplitude-variance="0.01" position=" 1.5 0 -1" radius="0.5"></lp-sphere>
+          <lp-sphere color="#93E8CE" amplitude="0.05" amplitude-variance="0.01" position=" -1 0 -1.5">
+            <a-animation begin="click" attribute="amplitude" from="0.05" to="0.2" repeat="indefinite" dur="900" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="position" from="-1 0 -1.5" to="1 5 -1.5" dur="1000" repeat="indefinite" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="scale" from="1 1 1" to="0.8 0.8 0.8" repeat="indefinite" dur="800" direction="alternate"></a-animation>
+            <a-animation begin="click" attribute="rotation" from="0 0 0" to="360 0 0" repeat="indefinite" dur="1000"></a-animation>
+          </lp-sphere>
+          <lp-cone color="#92F65C" radius-top="0.3" radius-bottom="1.5" height="2.5" position="-1 3 0" amplitude-variance="0.1" amplitude="0.1" segments-height="3"></lp-cone>
+          <!--<a-tetrahedron color="#92F65C" radius="1.8" position="-1 2.5 0" rotation="35 0 -40"></a-tetrahedron>-->
+          <a-cylinder color="#92615C" radius="0.25" segments-radial="8" height="3" position="-1.2 1 0" ></a-cylinder>
+
+          <a-sphere color="#FF4A5B" class="clickable" position="0 3 1.2" radius="0.7" rotation="20 0 0" opacity="0.9">
+            <a-cylinder color="#FF6C5B"radius="0.75" height="0.2"></a-cylinder>
+            <a-cylinder radius="0.1" height="3" position="0 -1.5 0"></a-cylinder>
+            <a-animation begin="click" repeat="8" direction="alternate" attribute="scale" from="1 1 1" to="0.5 0.7 0.7" dur="900"></a-animation>
+          </a-sphere>
+
+          <a-sphere color="#FF8529" position="0 4.5 .5" radius="0.7" opacity="0.9" rotation="10 0 0" >
+            <a-cylinder color="#FFA329" radius="0.75" height="0.2"></a-cylinder>
+            <a-cylinder radius="0.1" height="3.5" position="0 -2 0"></a-cylinder>
+          </a-sphere>
+      </lp-sphere>
+
+
+      <!--path-->
+      <a-entity>
+        <a-cylinder color="#FFFCDC" radius="0.5" height="0.1" segments-radial="8" position="4 0.3 -2.5"></a-cylinder>
+        <a-cylinder color="white" radius="0.4" height="0.1" segments-radial="8" position="3.5 0.3 -3.3">
+            <a-animation attribute="height" from="0.1" to="0" dur="1000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.3" height="0.1" segments-radial="8" position="2.75 0.3 -3.3"></a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="3 0.3 -2.5">
+            <a-animation attribute="height" from="0.1" to="0" dur="1000" direction="alternate" repeat="indefinite" begin="200"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="2 0.3 -2.5">
+            <a-animation attribute="height" from="0.1" to="0" dur="1000" begin="400" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.5" height="0.1" segments-radial="8" position="3 0.3 -1.5"></a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="1 0.3 -1.5">
+            <a-animation attribute="height" from="0.1" to="0" dur="1000" begin="800" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="-0.5 0.3 0.5">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="1000" begin="1600" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="-1.5 0.3 1">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="1000" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="-1.5 0.3 2">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="2200" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="-2.5 0.3 2">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="2400" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="-3.5 0.3 2">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="2600" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="-3.5 0.3 3">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="2800" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+
+        <a-cylinder color="#FFFCDC" radius="0.3" height="0.1" segments-radial="8" position="-2.6 0.3 2.8"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.3" height="0.1" segments-radial="8" position="-2.3 0.3 1.2"></a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.3" height="0.1" segments-radial="8" position="-0.7 0.3 1.35"></a-cylinder>
+
+        <a-cylinder color="#FFFCDC" radius="0.2" height="0.1" segments-radial="8" position="-0.7 0.3 1.9"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.2" height="0.1" segments-radial="8" position="-0.1 0.3 1.1"></a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.2" height="0.1" segments-radial="8" position="-1.2 0.3 0.3"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.2" height="0.1" segments-radial="8" position="-0.7 0.3 1.35"></a-cylinder>
+
+        <a-cylinder color="#FFFCDC" radius="0.4" height="0.1" segments-radial="8" position="1.2 0.3 -2.3"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.15" height="0.1" segments-radial="8" position="1.6 0.3 -1.95"></a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.5" height="0.1" segments-radial="8" position="0.85 0.3 -0.5">
+            <a-animation attribute="height" from="0.1" to="0" dur="1200" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.2" height="0.1" segments-radial="8" position="0.45 0.3 -1.1"></a-cylinder>
+        <a-cylinder color="white" radius="0.3" height="0.1" segments-radial="8" position="0.2 0.3 0">
+            <a-animation attribute="height" from="0.1" to="0.5" dur="1400" begin="2000" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.2" height="0.1" segments-radial="8" position="0.2 0.3 -0.7"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.2" height="0.1" segments-radial="8" position="0.45 0.3 -1.1"></a-cylinder>
+
+
+        <a-cylinder color="#FFFCDC" radius="0.3" height="0.1" segments-radial="8" position="3.85 0.3 -1.7"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.3" height="0.1" segments-radial="8" position="1.85 0.3 -0.7"></a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.2" height="0.1" segments-radial="8" position="3.45 0.3 -2"></a-cylinder>
+        <a-cylinder color="#C29F51" radius="0.2" height="0.1" segments-radial="8" position="2.45 0.3 -2"></a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.2" height="0.1" segments-radial="8" position="1.45 0.3 -1"></a-cylinder>
+        <a-cylinder color="#FFFCDC" radius="0.25" height="0.1" segments-radial="8" position="2.45 0.3 -0.9"></a-cylinder>
+        <a-cylinder color="white" radius="0.5" height="0.1" segments-radial="8" position="2 0.3 -1.5">
+            <a-animation attribute="height" from="0.1" to="0" dur="1000" begin="600" direction="alternate" repeat="indefinite"></a-animation>
+        </a-cylinder>
+
+      </a-entity>
+
+      <!--wafers-->
+      <a-entity class="clickable" position="-4 0 1" rotation="20 0 -10">
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 3 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 3.3 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 3.6 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 3.9 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 4.2 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 4.5 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 4.8 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 5.1 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 5.4 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 5.7 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 6.0 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 6.3 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 6.6 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 6.9 0"></a-cylinder>
+
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 2.7 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 2.4 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 2.1 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 1.8 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 1.5 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 1.2 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 0.9 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 0.6 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 0.3 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 0 0"></a-cylinder>
+      </a-entity>
+      <a-entity class="clickable" position="-2 0 4" rotation="-20 0 10">
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 3 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 3.3 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 3.6 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 3.9 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 4.2 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 4.5 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 4.8 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 5.1 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 5.4 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 5.7 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 6.0 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 6.3 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 6.6 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 6.9 0"></a-cylinder>
+
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 2.7 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 2.4 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 2.1 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 1.8 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 1.5 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 1.2 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 0.9 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 0.6 0"></a-cylinder>
+            <a-cylinder color="#FFAACA" radius="0.3" height="0.3" position="0 0.3 0"></a-cylinder>
+            <a-cylinder color="#664922" radius="0.3" height="0.3" position="0 0 0"></a-cylinder>
+      </a-entity>
+
+
+    </a-cylinder>
+
+   <!--Clouds-->
+    <a-entity rotation="0 10 0">
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-20 15 0" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-20 20 20" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-15 15 -5" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-20 12 15" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-10 20 10" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-5 30 -10" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="0 40 50" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="5 30 -5" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="10 20 10" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="0.5" segment-height="1" radius-top="0.7" radius-bottom="0.8" position="-10 20 50" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-20 12 20" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-10 15 20" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-15 12 0" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-18 20 10" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-10 15 -5" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-5 30 15" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="0 40 -5" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="10 15 10" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-12 25 -10" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-15 15 0" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+        <lp-cone height="1" segment-height="1" radius-top="0.9" radius-bottom="1" position="-20 25 -20" amplitude-variance="0.04" amplitude="0" ></lp-cone>
+    </a-entity>
+
+  <!-- stars -->
+  <a-entity>
+  <lp-sphere color="#FFFD8B" position="-30 10 0" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1000" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 10 9" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1100" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 10 -35" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="200" dur="300"></a-animation>
+  </lp-sphere>
+
+  <lp-sphere color="#FFFD8B" position="-25 15 10" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="800" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-5 15 42" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="600" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-30 15 -1" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="100" dur="300"></a-animation>
+  </lp-sphere>
+
+  <lp-sphere color="#FFFD8B" position="-20 25 20" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1200" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 25 38" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="850" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 25 17" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="400" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 25 -12" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="200" dur="300"></a-animation>
+  </lp-sphere>
+
+  <lp-sphere color="#FFFD8B" position="-15 18 33" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="500" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 18 42" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="950" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 18 28" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="150" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-30 18 2" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="50" dur="300"></a-animation>
+  </lp-sphere>
+
+  <lp-sphere color="#FFFD8B" position="-27 12 -8" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="700" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 12 48" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="550" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 12 23" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1150" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-30 12 12" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="3500" dur="300"></a-animation>
+  </lp-sphere>
+
+  <lp-sphere color="#FFFD8B" position="-30 15 -25" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1000" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 20 -15" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="100" dur="300"></a-animation>
+  </lp-sphere>
+    <lp-sphere color="#FFFD8B" position="-20 8 -10" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="233" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 25 -20" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="455" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-25 10 -15" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="672" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-30 20 -20" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="900" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 25 -20" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1345" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 15 -25" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="598" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-30 25 -28" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1045" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-15 8 -28" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="830" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 18 -35" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="50" dur="300"></a-animation>
+  </lp-sphere>
+
+  <lp-sphere color="#FFFD8B" position="-20 15 35" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1000" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 20 25" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="100" dur="300"></a-animation>
+  </lp-sphere>
+    <lp-sphere color="#FFFD8B" position="-10 8 20" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="233" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 25 30" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="455" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 10 25" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="672" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 20 30" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="900" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 25 30" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1345" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 15 35" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="598" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 25 38" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="1045" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-10 8 38" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="830" dur="300"></a-animation>
+  </lp-sphere>
+  <lp-sphere color="#FFFD8B" position="-20 18 45" radius="0.2" amplitude="0.1" amplitude-variance="0.1">
+        <a-animation attribute="visible" from="true" to="false" direction="alternate" repeat="indefinite" begin="50" dur="300"></a-animation>
+  </lp-sphere>
+
+  </a-entity>
+  </a-scene>
+</body>
+</html>
